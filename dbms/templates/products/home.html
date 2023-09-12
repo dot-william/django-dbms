@@ -1,10 +1,31 @@
 {% extends "products/base.html"%}
 {% load static %}
+{% block style %}
+<link rel="stylesheet" href="{% static  'css/style.css' %}">
+{% endblock style %}
 
 {% block content %}
-    <main class="container mt-5">
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="sampleModal">
-            Launch Modal
-        </button>
+<h1 class='text-center'> Product Manager</h1>
+<main class="container mt-5">
+        <div id="grad">
+            <h2> ManageProducts </h2>
+            <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date Added</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Product Code</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                </tbody>
+              </table>
+        </div>
     </main>
 {% endblock content %}
