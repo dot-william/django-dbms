@@ -5,10 +5,16 @@
 {% endblock style %}
 
 {% block content %}
+
 <h1 class='text-center'> Product Manager</h1>
 <main class="container mt-5">
-        <div id="grad">
+        {% include 'products/modals.html' %}
+        <div id="grad" class="d-flex justify-content-between align-items-center">
             <h2> ManageProducts </h2>
+            <button type='button' class='btn btn-default m-3' data-toggle="modal" data-target="#addProduct">
+              Add Product
+            </button>
+        </div>
             <table class="table">
                 <thead class="thead-light">
                   <tr>
@@ -18,14 +24,28 @@
                     <th scope="col">Category</th>
                     <th scope="col">Product Code</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                   </tr>
+                  {% for product in products%}
+                  <tr>
+                    <td> {{ product.prod_id }} </td>
+                    <td> {{ product.name }} </td>
+                    <td> {{ product.date_added }} </td>
+                    <td> {{ product.category }} </td>
+                    <td> {{ product.code }} </td>
+                    <td> {{ product.quantity }} </td>
+                    <td> ₱{{ product.price }} </td>
+                    <td><button type="button" class="btn btn-default badge-dark" data-toggle="modal" data-target="#updateProduct-{{product.prod_id}}">Edit</button></td>
+                    <td><button type="button" class="btn btn-default badge-danger" data-toggle="modal" data-target="#deleteProduct-{{product.prod_id}}">Delete</button></td>
+                  </tr>
+                  {% endfor %}
                 </thead>
                 <tbody>
                   
                 </tbody>
               </table>
-        </div>
+        
     </main>
 {% endblock content %}

@@ -1,0 +1,103 @@
+<!-- Add Product Modal -->
+<div class="modal fade" role="dialog" id="addProduct">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Product</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="add/" method="POST" enctype="multipart/form-data"  autocomplete="off">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <table class="table">
+                        {% for field in add_product_form %}
+                        <tr>
+                            <th>{{field.label}}</th>
+                            <td>{{ field }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-info"><i class="bi bi-check-circle"></i> Save</button>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Product Modal -->
+{% for edit in actions %}
+<div class="modal fade" id="updateProduct-{{edit.product.prod_id}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Product</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="update/{{edit.product.prod_id}}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <table class="table">
+                        {% for field in edit.edit_form %}             
+                        <tr>
+                            <th>{{ field.label }}</th>
+                            <td>
+                                {% if field.name == 'name' %}
+                                    <input type="text" name="{{ field.name }}" value="{{ edit.product.name }}">
+                                {% elif field.name == 'price' %}
+                                    <input type="number" min="0.00" step="any" name="{{ field.name }}" value="{{ edit.product.price }}">
+                                {% elif field.name == 'code' %}
+                                <input type="txt" name="{{ field.name }}" value="{{ edit.product.price }}">
+                                {% elif field.name == 'quantity' %}
+                                <input type="number" name="{{ field.name }}" value="{{ edit.product.quantity }}">    
+                                {% elif field.name == 'category' %}
+                                    <select name="{{ field.name }}">
+                                        <option value="Electronics" {% if 'ELEC' == edit.product.category %}selected{% endif %}>Electronics</option>
+                                        <option value="Food" {% if 'FOOD' == edit.product.category %}selected{% endif %}>Food</option>
+                                        <option value="Book" {% if 'BOOK' == edit.product.category %}selected{% endif %}>Book</option>
+                                    </select>
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-info">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endfor%}
+
+<!-- Delete Product Modal -->
+{% for delete in actions %}
+<div class="modal fade" id="deleteProduct-{{delete.product.prod_id}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Product</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="delete/{{delete.product.prod_id}}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    Are you sure you want to delete {{ delete.product.name }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
